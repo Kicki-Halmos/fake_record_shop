@@ -1,6 +1,6 @@
 <?php 
-    include_once "Record.php";
-    include_once "generate_recordsApi.php";
+    include "Record.php";
+    include "generate_recordsApi.php";
 
     class App {
 
@@ -87,6 +87,14 @@
 
             // if genre & show
             if (isset($_GET['show'])) {
+                self::getGenreAndShow($array);
+            }
+            else {
+             self::renderData($array);
+            }
+     }
+        
+        public static function getGenreAndShow($array){
                 $limit_array = array();
                 $amount = "";
 
@@ -105,7 +113,7 @@
                 if(count($array) < $amount) {
                     $error['Genre'] = "Genre is not found";
                     array_push($limit_array, $error);
-                    self::RenderData($limit_array);
+                    //self::RenderData($limit_array);
                 } 
 
                 else {
@@ -113,15 +121,11 @@
                     $record = $array[rand(0,count($array)-1)];
                     array_push($limit_array, $record);
                     }
-
-                self::renderData($limit_array);
-            } 
+                } 
+                
+           self::renderData($limit_array);
         }
-            else {
-                self::renderData($array);}
-             }
 
-             
         public static function renderData($records){
             $json = json_encode($records, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT); 
            
