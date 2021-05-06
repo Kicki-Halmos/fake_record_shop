@@ -1,6 +1,6 @@
 <?php 
     
-    require_once "/generate_recordsApi.php";
+    require __DIR__ . "generate_recordsApi.php";
 
     class App {
 
