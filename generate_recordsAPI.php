@@ -1,5 +1,5 @@
 <?php
-    include_once "Record.php";
+    include "Record.php";
 
     function generateAPI(){
     $records = array();
