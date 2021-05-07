@@ -1,11 +1,14 @@
 <?php 
 
-    //require_once('generate_recordsApi.php');
+    //require_once('generate_recordsApi.php'); --detta kommando funkar bra i localhost/mamp men ej när jag deployar till heroku
       require_once('Record.php');  
     class App {
 
         public static function main(){
+            //hämta records-array
             $records = self::getRecords();
+
+            //kolla om querys finns och anropa lämplig metod 
             if(isset($_GET['genre']) || (isset($_GET['show']) && isset($_GET['genre']))){
                 self::getGenre($records);
             }
@@ -18,11 +21,13 @@
 
         }
 
+        //hämtar records-array
         public static function getRecords(){
             $records = self::generateApi();  
             return $records;       
         }
 
+        //visar ett randomiserat antal skivor baserat på queryn "show"
         public static function showRandom($records){
                 $amount = intval($_GET['show']);
                 $array = array();
@@ -40,6 +45,7 @@
             
         }
 
+        //hämtar queryn genre och visar endast de skivor som tillhör den genre som anges
         public static function getGenre($records){
 
             //check genre
@@ -94,6 +100,7 @@
             }
      }
         
+        //hämtar både query genre och show och hanterar dessa
         public static function getGenreAndShow($array){
                 $limit_array = array();
                 $amount = "";
@@ -103,7 +110,7 @@
                 $amount = intval($_GET['show']);
                } 
 
-               //value of "show" can't be higher than 5 
+               //value of show can't be higher than 5 
                else {
                 $error["Show + Genre"]="Value of Show together with Genre must be between 1 and 5"; 
                 array_push($limit_array, $error); 
@@ -126,12 +133,14 @@
            self::renderData($limit_array);
         }
 
+        //renderar skivorna som json-fil
         public static function renderData($records){
             $json = json_encode($records, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT); 
            
             echo $json;
         }
 
+        //genererar records-api
         public static function generateAPI(){
             $records = array();
         
